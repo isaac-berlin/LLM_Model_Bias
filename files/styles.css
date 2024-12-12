@@ -344,3 +344,8 @@ caption {
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.table-3-hightlight {
+    color: #007bff;
+    font-weight: bold;
+}

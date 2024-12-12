@@ -20,7 +20,7 @@
 <body>
   <div>
     <div class="wrapper">
-      <h1 style="font-family: &#39;Lato&#39;, sans-serif;">Exploring Bias in Different LLM Models and its Discrepancies to Human Judgment</h1>
+      <h1 style="font-family: &#39;Lato&#39;, sans-serif;">Exploring Political Bias in LLMs Through Debate: A Multi-Agent Framework</h1>
       <h4 style="font-family: &#39;Lato&#39;, sans-serif; ">Fall 2024 CSCI 5541 NLP: Class Project - University of Minnesota</h4>
       <h4 style="font-family: &#39;Lato&#39;, sans-serif; ">Auto “Encoder” Bots</h4>
 
@@ -116,141 +116,335 @@
     </div>
   </div>
 
-
-
-
-
-  
-  
-
-
   <div class="wrapper">
-    <hr>
-
-    <b>NOTE: </b> <p>Because our project has changed recently the information in this website is partially from our previous project proposal. Please see the Future Work section for more information about our new project.</p>
     <h2 id="abstract">Abstract</h2>
-
-<p>This study investigates potential political bias
-  in distinct large language models (LLMs) by
-  examining their ability to classify biased content using the Bias Annotations By Experts
-  (BABE) dataset. Previous work has focused
-  on bias in news outlets, but with the rising influence of LLMs in research and information
-  retrieval, understanding their political leanings
-  is critical. We task these models with classifying politically biased sentences and compare
-  their predictions against ground truth labels.
-  By analyzing how accurately the models detect bias across the political spectrum, we assess whether they perform differently for leftleaning versus right-leaning content. Discrepancies in performance could reveal inherent
-  biases in the models themselves. Specifically,
-  our research aims to shed light on the political
-  neutrality of widely-used LLMs.</p>
+<p>
+  The growing capabilities of large language models (LLMs) have unlocked new opportunities for applications requiring nuanced text generation. 
+  However, their ability to engage in critical reasoning and adversarial argumentation remains underexplored, particularly in politically sensitive contexts. 
+  This paper investigates the performance of fine-tuned LLMs, specifically LLAMA 3.2 and PHI 1.5, trained to exhibit distinct political biases (left-leaning and right-leaning). 
+  We designed a structured debate arena where these models engaged in multi-turn dialogues to assess their adherence to their training biases, reasoning ability, and capacity for persuasion under dynamic prompts. 
+  To evaluate performance, we developed a rubric with seven categories—Agreement, Disagreement, Faculty, Emotion, Coherence, On topic, and Convincing—and automated the evaluation process using ChatGPT and Claude to reduce subjective bias. 
+  Our results provide a comprehensive analysis of how models maintain or deviate from their trained biases in adversarial settings and highlight the complexities of using biased LLMs in real-world scenarios.
+</p>
 
 <hr>
 
-<h2 id="introduction">Introduction / Background / Motivation</h2>
+<h2 id="introduction">Introduction</h2>
+<p>
+  The rapid growth of large language models (LLMs) has revolutionized how people consume information  and conduct research (<a href="">Kasneci et al., 2023</a>; 
+  <a href="">Thirunavukarasu et al., 2023</a>; <a href="">Lin et al., 2024</a>). However, their capacity for critical argumentation
+  and reasoning, particularly in multi-turn adversarial interactions, remains underexplored. Real-world applications demand LLMs capable of generating
+  factually accurate, logical, and persuasive arguments, yet existing evaluation methods often focus on isolated tasks like summarization or question answering, 
+  limiting insights into their performance in dynamic and contextually rich scenarios (<a href="">Jin et al., 2024</a>). 
+</p>
+<p>
+  While mainstream media outlets are often scrutinized for their political leanings—ranging from left to right that categorizes outlets 
+  by bias— LLMs have not yet been thoroughly evaluated for their impartiality (<a href="">Naveedet et al., 2023</a>).
+  Additionally, while previous research has explored multi-agent interactions in LLMs, such as
+  collaborative or adversarial dialogue (<a href="">Du et al., 2023</a>), the analysis of political bias within these
+  contexts has been insufficiently addressed. This gap, and hence our work, is critical given the societal 
+  implications of deploying biased LLMs in areas requiring impartiality and nuanced understanding.
+</p>
+<p>
+  To address this, we fine-tuned two prominent models, LLAMA 3.2 (<a href="">Touvron et al., 2023</a>) and
+  PHI 1.5 (<a href="">Li et al., 2023</a>), to exhibit distinct political biases (left-leaning and right-leaning) and designed
+  a structured debate arena to analyze their performance. The debate arena allowed these fine-tuned
+  models to engage in structured, turn-taking dialogues where their ability to adhere to their training
+  biases was tested under dynamic prompts. Furthermore, to evaluate the performance of these politically biased models, 
+  we developed a rubric encompassing seven critical categories: Agreement, Disagreement, Faculty, Emotion, Coherence, On topic, 
+  and Convincing. These categories were selected to assess the models’ ability to construct
+  logical and coherent arguments, convey emotion or evidence-based reasoning, and effectively persuade
+  or counter opposing viewpoints. To ensure an unbiased evaluation, we automated the scoring process
+  using ChatGPT and Claude, acknowledging the potential for implicit bias in these evaluators.
+  This paper explores the fine-tuning process, debate framework, and evaluation methodology to
+  provide insights into how LLMs engage in adversarial reasoning while reflecting inherent biases.
+  Our findings contribute to understanding the capabilities and limitations of LLMs in politically
+  sensitive and argumentative scenarios, paving the way for future research in this domain.
+</p>
 
+<h2 id="introduction">Background</h2>
 <p>
-<b>What did you try to do? What problem did you try to solve? Articulate your objectives using absolutely no jargon.</b>
-</p>
+TODO: add when paper is finished
 <p>
-We aim to investigate the political bias of large language models (LLMs) by examining their ability to classify biased content.
-We source this content both from the BABE dataset and from manually labeled news articles relating to the 2024 Election in the United States.
-Our main goal is understanding how well these models can detect bias in text, and whether they perform differently for left-leaning versus right-leaning content.
-</p>
-
-<p>
-<b>How is it done today, and what are the limits of current practice?</b>
-</p>
-<p>
-It has laready been proven that LLMs can be biased, but previously conducted studies have mainly focused on either generating text or answering questions.
-These methods are good generalizations, but they do not provide enough information about the models' ability to detect bias in novel text.
-<p>
-
-<p>
-<b>Who cares? If you are successful, what difference will it make?</b>
-</p>
-<p>
-If we are successful, we will be able to shed light on the political neutrality of a few SOTA LLMs. 
-This will assist in understanding the potential biases in these models when dealing with breaking news.
-Overall, it will help us categorize the bias of these models and potentially improve them in the future.
-</p>
 
 <hr>
 
 <h2 id="approach">Approach</h2>
-
+<p><b>Model Fine-tuning</b></p>
 <p>
-<b>What did you do exactly? How did you solve the problem? Why did you think it would be successful? Is anything new in your approach?</b>
+  In this study, we developed a framework for analyzing the political bias in large language models (LLMs) through structured debates. 
+  Selected models were fine-tuned using the <a href="">BABE</a> dataset, which was chosen for its ability to provide politically biased text, 
+  aligning with our goal of creating models that exhibit specific left-leaning and right-leaning political stances. 
+  We divided this dataset into two subsets: one labeled as biased and right-leaning, and the other as biased and left-leaning. These subsets were then used to fine-tune our base models, LLAMA 3.2 and PHI 1.5, to create politically biased models. 
+  The LLAMA 3.2 model, developed by Meta, is a text-only model with 1 billion parameters, whereas PHI 1.5 model, created by Microsoft, is a Transformer-based model with 1.3 billion parameters. 
+  Due to computing limitations and the need for faster training and response generation, we selected these model for their efficiency for rapid fine-tuning and response generation.
 </p>
 
+<p><b>Debate Arena</b></p>
 <p>
-We used a finetuned a few SOTA LLMs to detect bias in text from the BABE dataset and from manually labeled news articles. 
-This allows us to have a baseline for how well these models can detect and classify bias. 
-It also allows us to see how these models will perform when the facts are not as clear as they are in the BABE dataset.
+  We further designed a debate arena to facilitate structured, turn-taking dialogues between the fine-tuned models, where each debate session began with a chosen prompt. 
+  This environment allowed for the generation of politically biased responses, with each model participating in debates aligned with its training. 
+  The debate format was customizable, providing flexibility to adjust parameters such as the prompt or the number of debate turns.
 </p>
 
+<p><b>Evaluation</b></p>
 <p>
-<b>What problems did you anticipate? What problems did you encounter? Did the very first thing you tried work?</b>
-</p>
-
-<p>
-We were optimistic that the models would be able to detect bias in the BABE dataset, but were eventually met with subpar results. 
-Our first pass at training the models did not work as expected, and we have decided to move forward with a different approach.
+  To evaluate the performance of our models in debates, we developed a rubric consisting of seven categories: Agreement, Disagreement, Faculty, Emotion, Coherence, On topic, and Convincing. 
+  These categories were chosen to assess whether the models could generate coherent, logically sound arguments, persuade the opposing model during the debate, and argue using evidence or emotion. 
+  To automate the evaluation process, we used ChatGPT and Claude, which helped mitigate potential biases from human evaluators.
+  Specifically, we employed few-shot prompting approach, wherein the models were provided with a structured prompt, 
+  including an example debate accompanied by pre-assigned scores (on a 1-10 scale) to illustrate the evaluation process. 
+  Then, the models were tasked with assigning scores for each category and determining a debate winner for subsequent debates. 
+  Although we recognized the possibility of implicit bias from these LLMs, we chose to use them for evaluation rather than conducting it ourselves, as doing so could have introduced our own biases.
 </p>
 
 <hr>
     
 <h2 id="results">Results</h2>
 <p>
-<b>How did you measure success? What experiments were used? What were the results, both quantitative and qualitative? Did you succeed? Did you fail? Why?</b>
+To evaluate the performance of our fine-tuned models, we developed a debate arena where any two models could be placed in a controlled environment and prompted with a variety of questions. 
+This setup allowed us to assess the models' ability to engage in structured, multi-turn debates, with an emphasis on the political biases in their responses. In addition to pairing different models, 
+we also conducted intra-model debates, where the left-leaning and right-leaning versions of the same model engaged in debates against each other.
 </p>
+
+<p><b>Experimental Setup</b></p>
 <p>
-We measured success by comparing the models' predictions to the ground truth labels in the BABE dataset. We unfortunately did not succeed in detecting bias in the BABE dataset, but we are hopeful that our new approach will yield better results.
+  The debate prompts used in this study are listed in <a href="index.html#table-1" target="_self">Table 1</a>. These prompts were carefully selected based on their relevance to current, highly polarized political issues. 
+  By choosing contentious topics, we aimed to create debates that would elicit strong disagreements between left-leaning and right-leaning models, providing a clear analysis of how each model navigates politically sensitive subjects.
 </p>
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: center"><strong>Model</strong></th>
-      <th style="text-align: center">Accuracy</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: center">DistilBERT</td>
-      <td style="text-align: center">0.4839</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">RoBERTa</td>
-      <td style="text-align: center">0.554</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">BERT</td>
-      <td style="text-align: center">0.5177</td>
-    </tr>
-    <tr>
-      <td style="text-align: center">ALBERT</td>
-      <td style="text-align: center">0.5640</td>
-    </tr>
-  </tbody>
-  <caption>Table 1. Models and their errors on the BABE dataset</caption>
+
+<table id="table-1">
+  <tr>
+      <td><strong>Prompt #1:</strong> Should the US impose stricter regulations on carbon emissions and stop fracking to combat climate change, even at the cost of economic growth?</td>
+  </tr>
+  <tr>
+      <td><strong>Prompt #2:</strong> Should social media platforms regulate content to prevent hate speech and misinformation, or should they allow free speech, even at the risk of harmful content?</td>
+  </tr>
+  <tr>
+      <td><strong>Prompt #3:</strong> Should countries adopt more lenient immigration policies to address labor shortages and humanitarian crises, or tighten borders to prioritize national security?</td>
+  </tr>
+  <tr>
+      <td><strong>Prompt #4:</strong> Should the US reform its tax system to implement a progressive tax where higher earners pay a significantly higher rate than lower-income workers, or should the US adopt a flat tax rate where everyone has the same tax rate?</td>
+  </tr>
+  <tr>
+      <td><strong>Prompt #5:</strong> Do you think transgender women should be allowed to play in women's sports?</td>
+  </tr>
+  <caption>Table 1: List of debate prompts used to evaluate political bias in model responses.</caption>
 </table>
 
-<br>
-<hr>
+<p>
+  An example of a debate between the Phi-left and Phi-right models is presented in <a href="index.html#table-2" target="_self">Table 2</a>, using the prompt:
+  <i>"Should social media platforms regulate content to prevent hate speech and misinformation, or should they allow free speech, even at the risk of harmful content?"</i>
+  For this particular debate, the Phi-left model was prompted to respond first, followed by the Phi-right model. To ensure a dynamic exchange, the debate consisted of three turns, 
+  with a history window of two previous responses to inform each new reply. The temperature was set to 0.7 to allow for varied yet controlled outputs, the maximum length of each response was limited to 1024 characters,
+  and the maximum number of new tokens generated in each turn was capped at 150. This configuration was chosen to strike a balance between generating meaningful dialogue while maintaining computational efficiency.
+</p>
 
+<table id="table-2">
+  <thead>
+      <tr>
+          <th><strong>Phi-Left</strong></th>
+          <th><strong>Phi-Right</strong></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>
+              <small>
+                  Free Appropriate Expression. Do you think that people have a right not only to say something but also to see it online? In other words: 
+                  How do we balance our freedom with another person's right — however inconvenient or infuriating their message may be for us personally (e.g.
+              </small>
+          </td>
+          <td>
+              <small>
+                  1) What is your definition of hateful rhetoric as well as what are “hate” in general terms according to the left and how does this apply specifically within an 
+                  age where non-white lives matter so much more than ever before? As one can imagine from looking at Twitter conversations between prominent Democrats such as Bernie Sanders, 
+                  Elizabeth Warren, Kamala Harris among others who have used slurs like black being white has been taken out of context by certain individuals and groups claiming innocent love; 
+                  using racial vernaculars when speaking about white male politicians in politics over Obama/Trump riffs would most likely fall under the same category—as long those comments were
+                  made without intent to offend anyone while keeping up with current political conversations revolving around race issues which will
+              </small>
+          </td>
+      </tr>
+      <tr>
+          <td>
+              <small>
+                  whether these individuals believe there was anything racist going on during George Washington's presidency...and why or why not if he had gone against popular opinion then his 
+                  actions shouldn't just end here since all presidents go through periods of controversy involving racism, sexual assault allegations etcetera -- because Trump wants nothing less 
+                  than world domination! First, let me explain to my friends Lisa and John, two history enthusiasts discussing Donald Trump's presidential campaign trail last year—although I did 
+                  mention in passing earlier today that despite having no experience whatsoever in running a presidential election, he went ahead anyway due to several reasons including bad advice
+                   from former Republican President Bill Clinton & co.: (1).
+              </small>
+          </td>
+          <td>
+              <small>
+                  "shouldn't social media companies regulate content..." This seems pretty straightforward enough until someone throws in some big talk about protecting women and minorities...
+              </small>
+          </td>
+      </tr>
+      <tr>
+          <td>
+              <small>
+                  How might we better understand the concept behind the phrase 'free speech'? Or put another way, "what do people think it means?" Let us attempt to answer both questions. 
+                  It may be helpful for you to read our responses below after reading them carefully. Also feel free to use whichever method makes sense best (for example listing pros and cons), 
+                  but beware - very many interpretations exist regarding the term itself.... For now though, please continue reading....
+              </small>
+          </td>
+          <td>
+              <small>
+                  ‘Should Social Media Platforms Regulate Content To Prevent Hate Speech And Misinformation’ by answering which side agrees with “…any one leader who believes this is their right 
+                  as president—not matter how good their ideas are." In other words … Which political party would agree more easily that Trump thinks America has lost its moral compass when compared 
+                  to those who disagree politically? That Democrats have never considered things like white nationalism; anti-gay hatred such as outrageously declaring oneself to be superior 
+                  over gays — or saying that anyone born black can only enjoy so much success unless they become really super-black – simply based upon skin color rather than any hard work done themselves.
+              </small>
+          </td>
+      </tr>
+  </tbody>
+  <caption>Table 2: Example of a debate between the Phi-left and Phi-right models on the topic of social media regulation.</caption>
+</table>
+
+
+<p><b>Evaluation Interpretation</b></p>
+<p>
+  After the evaluations by ChatGPT and Claude, the scores for each category across both models were averaged to obtain a cumulative performance assessment. 
+  <a href="index.html#table-3" target="_self">Table 3</a> displays these averaged scores, highlighting the distinct performance trends observed across the various biased models.
+</p>
+<p>
+  Llama-Right stands out as the most effective model overall, achieving the highest scores in several key categories, such as Coherence, On Topic, and Convincing. 
+  These results suggest that Llama-Right is not only able to generate logically structured and coherent arguments, but also effectively stays on topic and presents convincing points
+  during debates. The consistent high performance of Llama-Right across multiple categories indicates that this model maintains its political bias while engaging in meaningful and persuasive discourse.
+  This could imply that the fine-tuning process for Llama-Right helped it to develop a stronger argumentative structure and a higher level of engagement in multi-turn debates.
+</p>
+<p>
+  In contrast, Phi-Left, although strong in Emotion, tends to score lower in categories related to logical argumentation and coherence, such as Coherence, and Convincing. This suggests that the 
+  Phi-Left model may prioritize emotional appeal over logical consistency in debates. Phi-Right, on the other hand, performs well in Faculty and Coherence, showing a stronger command over factual and
+  argumentative responses, but struggles with Convincing and On topic compared to Llama-Right. Llama-Left, while showing some strengths in Convincing, also exhibits variability in its performance across the different 
+  categories, often underperforming in Coherence and Disagreement.
+</p>
+<p>
+  Overall, these findings underscore the influence of political bias on model performance during adversarial interactions.
+  The results suggest that Llama-based models generally outperform Phi-based models, with Llama-Right standing out as the most balanced and effective model.
+</p>
+
+<table id="table-3">
+  <thead>
+      <tr>
+          <th rowspan="2"><strong>Evaluation Category</strong></th>
+          <th colspan="2"><strong>Phi-Left</strong></th>
+          <th colspan="2"><strong>Phi-Right</strong></th>
+          <th colspan="2"><strong>Llama-Left</strong></th>
+          <th colspan="2"><strong>Llama-Right</strong></th>
+      </tr>
+      <tr>
+          <th>Claude</th>
+          <th>ChatGPT</th>
+          <th>Claude</th>
+          <th>ChatGPT</th>
+          <th>Claude</th>
+          <th>ChatGPT</th>
+          <th>Claude</th>
+          <th>ChatGPT</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Agreement</td>
+          <td>2.0</td>
+          <td>2.2</td>
+          <td>2.4</td>
+          <td class="table-3-hightlight">3.1</td>
+          <td>3.2</td>
+          <td>2.3</td>
+          <td class="table-3-hightlight">3.8</td>
+          <td>2.8</td>
+      </tr>
+      <tr>
+          <td>Disagreement</td>
+          <td>6.6</td>
+          <td>6.2</td>
+          <td>6.7</td>
+          <td>6</td>
+          <td>6.7</td>
+          <td>6.2</td>
+          <td class="table-3-hightlight">7.2</td>
+          <td class="table-3-hightlight">6.3</td>
+      </tr>
+      <tr>
+          <td>Faculty</td>
+          <td>3.2</td>
+          <td>4.3</td>
+          <td>3.6</td>
+          <td>4.2</td>
+          <td>5.3</td>
+          <td>3.6</td>
+          <td class="table-3-hightlight">5.4</td>
+          <td class="table-3-hightlight">4.7</td>
+      </tr>
+      <tr>
+          <td>Emotion</td>
+          <td class="table-3-hightlight">6.1</td>
+          <td class="table-3-hightlight">6.1</td>
+          <td>5.7</td>
+          <td>4.5</td>
+          <td>5.7</td>
+          <td>4.9</td>
+          <td>6.0</td>
+          <td>5.3</td>
+      </tr>
+      <tr>
+          <td>Coherence</td>
+          <td>3.7</td>
+          <td>4.3</td>
+          <td>4</td>
+          <td>4.4</td>
+          <td>5.8</td>
+          <td>3.5</td>
+          <td class="table-3-hightlight">6.3</td>
+          <td class="table-3-hightlight">5.4</td>
+      </tr>
+      <tr>
+          <td>On topic</td>
+          <td>4.2</td>
+          <td>5</td>
+          <td>4.5</td>
+          <td>4.5</td>
+          <td>5.7</td>
+          <td>3.8</td>
+          <td class="table-3-hightlight">6.2</td>
+          <td class="table-3-hightlight">5.7</td>
+      </tr>
+      <tr>
+          <td>Convincing</td>
+          <td>2.1</td>
+          <td>4.2</td>
+          <td>2.8</td>
+          <td>3.9</td>
+          <td>4.4</td>
+          <td>2.8</td>
+          <td class="table-3-hightlight">4.6</td>
+          <td class="table-3-hightlight">4.9</td>
+      </tr>
+  </tbody>
+
+  <caption>Table 3: Average evaluation scores of biased models analyzed by Claude and ChatGPT: Best-performing values area.</caption>
+</table>
 
 
 <h2 id="conclusion">Conclustion and Future Work</h2>
 <p>
-
-In the future we are transitioning to a new project. We recieved feedback that our current research is not novel enough and have decided to switch to a multi agent bias conversation project.
-We are going to train left leaning, right leaning, and neutral agents to have a conversation. These models will be prompted with persuasive techniques and will be evaluated on how well they can persuade the other agent.
-These models will be trained with biased text from the BABE dataset and from manually labeled news articles. We will then evaluate how well these models can persuade the other agents based on human metrics.
-We plan to pit the left leaning and right leaning agents against each other to see how well they can persuade each other. We will also evaluate how well the left and right leaning agents can persuade the neutral model.
-
+  In this study, we successfully developed a framework for analyzing political bias in large language models (LLMs) through structured debates. By
+  fine-tuning the LLAMA 3.2 and PHI 1.5 models using the BABE dataset, we were able to create politically biased models that engaged in debates,
+  allowing for a nuanced examination of their performance in adversarial contexts. The automated evaluation process, leveraging tools like ChatGPT
+  and Claude, ensured objective assessment of the models’ debate skills and bias tendencies. Our results provide valuable insights into how LLMs can
+  generate politically biased responses and highlight the potential for further refinement in their application, particularly in contentious political discourse.
+</p>
+<p>
+The models used in this study were fine-tuned on historical data collected up until 2021, which may not fully capture the evolving political landscape
+or current political beliefs. As a result, the political biases exhibited by the models may not accurately reflect present-day ideologies or viewpoints.
+Future research can expand upon this work by incorporating additional datasets that capture a broader range of political biases or more granular political positions that are even more current.
+Another key direction for future work involves developing methods to reduce and mitigate the influence of political bias in LLMs to help create
+more neutral and ethically responsible models. We believe that the approach proposed in this study provides a strong foundation for such efforts, 
+offering valuable insights into the degree to which political bias can be reduced effectively.
+</p>
 <hr>
-
-
   </div>
-  
-
-
 </body></html>
