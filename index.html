@@ -138,13 +138,19 @@
   limiting insights into their performance in dynamic and contextually rich scenarios (<a href="https://doi.org/10.48550/arXiv.2403.02901">Jin et al., 2024</a>). 
 </p>
 <p>
-  While mainstream media outlets are often scrutinized for their political leanings—ranging from left to right that categorizes outlets 
+  While mainstream media outlets are often scrutinized for their political leanings—ranging from left to right, as illustrated in an <a href="index.html#figure-1" target="_self">Figure 1</a> that categorizes outlets 
   by bias— LLMs have not yet been thoroughly evaluated for their impartiality (<a href="https://doi.org/10.48550/arXiv.2307.06435">Naveed et al., 2023</a>).
   Additionally, while previous research has explored multi-agent interactions in LLMs, such as
   collaborative or adversarial dialogue (<a href="https://arxiv.org/abs/2305.14325">Du et al., 2023</a>), the analysis of political bias within these
   contexts has been insufficiently addressed. This gap, and hence our work, is critical given the societal 
   implications of deploying biased LLMs in areas requiring impartiality and nuanced understanding.
 </p>
+<br>
+<div style="text-align: center; " id="figure-1">
+  <div style="width: 50%; height: 50%; margin-left: auto; margin-right: auto;"><img src="files/bias.jpg" alt="Bias of News Organizations"></div>
+  <caption>Figure 1: A visual representation categorizing mainstream media outlets based on their political bias, ranging from left-leaning to right-leaning, highlighting the diversity of perspectives in news reporting.</caption>
+</div>
+<br>
 <p>
   To address this, we fine-tuned two prominent models, LLAMA 3.2 (<a href="https://doi.org/10.48550/arXiv.2302.13971">Touvron et al., 2023</a>) and
   PHI 1.5 (<a href="https://doi.org/10.48550/arXiv.2309.05463">Li et al., 2023</a>), to exhibit distinct political biases (left-leaning and right-leaning) and designed
@@ -164,9 +170,21 @@
 
 <h2 id="introduction">Background</h2>
 <p>
-TODO: add when paper is finished
+  Recent studies have investigated the inherent political biases present in large language models (LLMs) and explored methods to mitigate them. <a href="https://doi.org/10.48550/arXiv.2403.18932">Bang et al. (2024)</a> 
+  analyzed the political bias of 11 open-source models by generating headlines for ten major political topics, revealing a liberal bias and a strong focus on US-centric issues. Interestingly, the study found that models within the same
+  family, despite using similar training data, did not necessarily share the same biases, highlighting the complexity of bias across different model architectures and sizes.
+</p>
 <p>
-
+  <a href="https://doi.org/10.48550/arXiv.2403.14896">Lin et al. (2024)</a> further examined how LLMs may introduce their own biases when detecting media bias, particularly in political content. Their findings indicated that LLMs tend to misclassify 
+  left-leaning articles as center-leaning while being more accurate with right-leaning articles. This discrepancy points to the models’ internal biases, which can skew predictions. They also proposed debiasing 
+  strategies, such as prompt engineering and fine-tuning, to address these issues.
+</p>
+<p>
+  Additionally, <a href="https://doi.org/10.48550/arXiv.2402.01789">Rozado (2024)</a> tested the political leanings of 24 LLMs, both fine-tuned and base models, by asking them questions from political orientation assessment tools. The study found that 
+  fine-tuning, particularly with ideologically biased datasets, could significantly alter the political leanings of a model, with models like LeftWingGPT and RightWingGPT displaying strong partisan biases based 
+  on their training data. These findings suggest that while base models tend to exhibit a center or center-left bias, careful fine-tuning can lead to models exhibiting a wide range of political perspectives. Collectively,
+  these studies emphasize the complexities of political bias in LLMs and the need for continued research into mitigating these biases to ensure balanced and fair outputs.
+</p>
 <hr>
 
 <h2 id="approach">Approach</h2>
@@ -196,8 +214,13 @@ TODO: add when paper is finished
   including an example debate accompanied by pre-assigned scores (on a 1-10 scale) to illustrate the evaluation process. 
   Then, the models were tasked with assigning scores for each category and determining a debate winner for subsequent debates. 
   Although we recognized the possibility of implicit bias from these LLMs, we chose to use them for evaluation rather than conducting it ourselves, as doing so could have introduced our own biases.
+  <a href="index.html#figure-2" target="_self">Figure 2</a> summarizes our proposed approach as a whole.
 </p>
-
+<br>
+<div style="text-align: center;" id="figure-2">
+  <img src="files/method.png" alt="Our method pipeline">
+  <caption>Figure 2: Proposed approach for analyzing political bias in LLMs through structured debates.</caption>
+</div>
 <hr>
     
 <h2 id="results">Results</h2>
